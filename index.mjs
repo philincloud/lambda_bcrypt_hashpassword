@@ -17,21 +17,21 @@ export const handler = async (event) => {
     let hash = data.hash
     let action = data.action
 
-    let result;
+   let response;
 
-    if(action == 'hash') result = await hashPass(pass)
-    if(action == 'check') result = await comparePass(pass, hash)
-
-
-
-let response = {
+   if(action ==='hash') {response = {
     statusCode: 200,
-    Headers: {
-        'Content-Type': 'application/json'
-    },
-    body:result
-}
+    body: await hashPass(pass)}
+   }
 
-return response
-}
+   if(action ==='check') {response = {
+    statusCode: 200,
+    body: await checkPass(pass, hash)}
+   }
+    if(action !== 'hash' && action !== 'check') {response = {
+        statusCode: 200,
+        body: 'Illegal request'}
+    }
 
+ return response
+}
